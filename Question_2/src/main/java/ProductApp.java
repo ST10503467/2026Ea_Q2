@@ -127,6 +127,7 @@ public class ProductApp extends javax.swing.JFrame {
 
         jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jMenuItem1.setText("Exit");
+        jMenuItem1.addActionListener(this::jMenuItem1ActionPerformed);
         jMenu1.add(jMenuItem1);
 
         jMenuBar1.add(jMenu1);
@@ -135,10 +136,12 @@ public class ProductApp extends javax.swing.JFrame {
 
         jMenuItem2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jMenuItem2.setText("Process");
+        jMenuItem2.addActionListener(this::jMenuItem2ActionPerformed);
         jMenu2.add(jMenuItem2);
 
         jMenuItem3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jMenuItem3.setText("Clear");
+        jMenuItem3.addActionListener(this::jMenuItem3ActionPerformed);
         jMenu2.add(jMenuItem3);
 
         jMenuBar1.add(jMenu2);
@@ -190,6 +193,49 @@ public class ProductApp extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        String ProductPrice = jTextField2.getText();
+        int ProductPriceInt = Integer.parseInt(ProductPrice);
+        String CustomerName = jTextField1.getText();
+        String Product = (String) jComboBox1.getSelectedItem();
+        ProductCalculations report = new ProductCalculations();
+
+        report.GetVat(ProductPriceInt);
+        int VAT = (int) report.GetVat(ProductPriceInt);
+
+        report.GetCommission(ProductPriceInt);
+        int Commission = (int) report.GetCommission(ProductPriceInt);
+
+        report.GetTotal(ProductPriceInt);
+        int Total = (int) report.GetTotal(ProductPriceInt);
+
+        try (FileWriter writer = new FileWriter("data.txt")) {
+            writer.write("DATA LOG"
+                    + "\n******************************"
+                    + "\nCustomer Name: " + CustomerName
+                    + "\nProduct: " + Product
+                    + "\nVAT: " + VAT
+                    + "\nCOMMISSION: " + Commission
+                    + "\nTOTAL: " + Total
+                    + "\n******************************");
+        } catch (IOException e) {
+            jLabel4.setText("Error occurred while writing to file.");
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        FileWriter writer = new FileWriter("data.txt")) {
+        writer.write("");
+    }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -213,7 +259,7 @@ public class ProductApp extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> new ProductApp().setVisible(true));
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
